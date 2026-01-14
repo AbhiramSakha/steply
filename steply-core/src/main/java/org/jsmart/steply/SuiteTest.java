@@ -1,4 +1,4 @@
-package org.jsmart.steply.template;
+package org.jsmart.steply;
 
 import org.jsmart.zerocode.core.domain.EnvProperty;
 import org.jsmart.zerocode.core.domain.TargetEnv;

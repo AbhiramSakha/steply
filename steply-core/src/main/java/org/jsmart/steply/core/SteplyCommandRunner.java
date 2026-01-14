@@ -1,6 +1,6 @@
 package org.jsmart.steply.core;
 
-import org.jsmart.steply.template.TestRunner;
+import org.jsmart.steply.JUCoreTestRunner;
 
 import java.io.File;
 
@@ -55,7 +55,7 @@ public class SteplyCommandRunner {
         if (scenarioFile == null) {
             throw new IllegalStateException("Scenario file must be provided for single scenario execution");
         }
-        TestRunner.runSingle(scenarioFile.getAbsolutePath(), targetEnvFile.getAbsolutePath());
+        JUCoreTestRunner.runSingle(scenarioFile.getAbsolutePath(), targetEnvFile.getAbsolutePath());
     }
 
     public void runSuite() {
@@ -63,6 +63,6 @@ public class SteplyCommandRunner {
         if (suiteFolder == null) {
             throw new IllegalStateException("Suite folder must be provided for suite execution");
         }
-        TestRunner.runSuite(suiteFolder.getAbsolutePath(), targetEnvFile.getAbsolutePath());
+        JUCoreTestRunner.runSuite(suiteFolder.getAbsolutePath(), targetEnvFile.getAbsolutePath());
     }
 }

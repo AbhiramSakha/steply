@@ -1,10 +1,10 @@
-package org.jsmart.steply.template;
+package org.jsmart.steply;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-public class TestRunner {
+public class JUCoreTestRunner {
 
     public static void runSingle(String scenarioPath, String targetEnvPath) {
         // ---- Override ZeroCode annotations programmatically via System properties ----
@@ -12,13 +12,13 @@ public class TestRunner {
         System.setProperty("zerocode.scenario", scenarioPath);
 
         JUnitCore junit = new JUnitCore();
-        Result result = junit.run(SingleTest.class);
+        Result result = junit.run(ScenarioTest.class);
 
         // Print failures (if any)
         printFailedSummary(result);
 
         // Print final stats
-        printResultStats(result);
+        printFinalStats(result);
 
         // ---- IMPORTANT: exit code for CI ----
         if (!result.wasSuccessful()) {
@@ -42,7 +42,7 @@ public class TestRunner {
         printFailedSummary(result);
 
         // Print final stats
-        printResultStats(result);
+        printFinalStats(result);
 
         // ---- IMPORTANT: exit code for CI ----
         if (!result.wasSuccessful()) {
@@ -54,22 +54,28 @@ public class TestRunner {
         System.exit(0);       // ZERO → CI PASS
     }
 
-    private static void printResultStats(Result result) {
-        System.out.println("SUMMARY:" + "\n--------");
-        System.out.println("Run count: " + result.getRunCount());
-        System.out.println("Failure count: " + result.getFailureCount());
-        System.out.println("------------------------------------------------------------------------------------------------");
-    }
+    private static void printFinalStats(Result result) {
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------");
+        System.out.println("[TEST] SUMMARY");
+        System.out.println("----------------------------------------------------------------------------------------");
 
+        System.out.printf("[TEST] Run Count ........................................ [%d]%n", result.getRunCount());
+        System.out.printf("[TEST] Failure Count .................................... [%d]%n", result.getFailureCount());
+
+        System.out.println("----------------------------------------------------------------------------------------");
+        System.out.println("[TEST] Reports: target/*.html");
+        System.out.println("[TEST] Audit Logs: target/logs/*.log");
+        System.out.println("----------------------------------------------------------------------------------------");
+    }
     private static void printFailedSummary(Result result) {
-        System.out.println("------------------------------------------------------------------------------------------------");
         if (result.getFailureCount() > 0) {
-            System.out.println("FAILURES:" + "\n---------");
+            System.out.println("----------------------------------------------------------------------------------------");
+            System.out.println("FAILURES:" + "\n--------");
             int count = 0;
             for (Failure failure : result.getFailures()) {
                 System.out.println( (++count) + ") Test failed(❌): " + failure.getTestHeader());
             }
-            System.out.println("\n----");
         }
     }
 
