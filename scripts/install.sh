@@ -38,7 +38,7 @@ chmod +x "${STEPLY_SH}"
 # Create a user-local launcher on PATH
 cat > "${LAUNCHER}" <<EOF
 #!/usr/bin/env bash
-exec "${STEPLY_SH}" "$@"
+exec "${STEPLY_SH}" "\$@"
 EOF
 chmod +x "${LAUNCHER}"
 
