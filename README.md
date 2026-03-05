@@ -108,6 +108,7 @@ After execution, reports are generated in the "target/" folder:
 ## Alternative to
 - Postman
 - Insomnia
+
 but modern, opensource, lightweight and secure, and with easily pluggable cloud integrations. 
 
 While those tools are powerful, they are often heavy, proprietary, or tightly coupled to specific ecosystems.
