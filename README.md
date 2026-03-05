@@ -105,6 +105,18 @@ After execution, reports are generated in the "target/" folder:
 - --target and --target-env work the same way.
 - Short forms like --targ are also accepted.
 
+## Alternative to
+- Postman
+- Insomnia
+but modern, opensource, lightweight and secure, and with easily pluggable cloud integrations. 
+
+While those tools are powerful, they are often heavy, proprietary, or tightly coupled to specific ecosystems.
+
+- This project is designed as a modern alternative to popular API development tools.
+
+- This project focuses on providing a modern, open-source, lightweight, and secure developer/SDET experience with easily pluggable hooks to external tools(such as Kafka, S3, Postgres etc).
+
+
 ## Documentation
 For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/)
 
