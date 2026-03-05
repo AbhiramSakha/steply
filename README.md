@@ -1,43 +1,111 @@
-EXECUTE:
+# Steply
+Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
+
+- You can automate BDD-style tests or run manual validations without writing code, using simple JSON or YAML test steps.
+
+- Store tests in Git(never loose your tests again) and easily manage manual tests, regression suites, and complex integration tests.
+
+## Install
+```shell
+curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
 ```
-- Download latest steply.zip file (from /tmp dir)(or 
 
-Folder Structure:
------------------
-➜  pwd 
+## Run a Test
+```shell
+steply --scenario tests/validate_github_user.json --target-env env/sit.properties
+```
 
-|random
-├── example
-│   ├── github_host_new.properties
-│   ├── hello_world_status_ok_assertions_new.json
-│   └── scenario_with_author_and_tag.json
-├── target
+## Run a full test suite:
+```
+steply --folder tests --target env/sit.properties
+```
+
+Project Folder Structure:
+```
+my-integration-testing-project/
+├── env
+│   ├── sit.properties
+│   ├── pre_prod.properties
+│   └── github_host.properties
+└── tests
+   ├── validate_github_user_api.json
+   ├── validate_create_user_api.json
+   └── validate_update_emplyee_api.json
+
+OUTPUT:
+-------
+├── target/
 │   ├── logs
 │   │   └── executions.log
-│   ├── zerocode-junit-granular-report.csv
-│   ├── zerocode-junit-interactive-fuzzy-search.html
-└── tests
-   ├── hello_world_status_ok_assertions_new_v2.json
-   ├── hello_world_status_ok_assertions_v2.json
-   └── scenario_with_author_and_tag.json
-➜  random 
-
-- Copy to a different location(eg ~/Downloads/STEPLY_WORKSPACE), unzip it (./steply-dist)
-  (This is where the symlink bin/steply.sh will point to)
-  
-- Execute test scenarios via CLI: 
-  steply --scenario example/hello_world_status_ok_assertions_new.json --target-env example/github_host_new.properties
-  or
-  steply --scenario example/scenario_with_author_and_tag.json --target-env example/github_host_new.properties
-  or
-  steply --scenario tests/hello_world_status_ok_assertions_v2.json --target-env example/github_host_new.properties
-  or
-  steply --scenario tests/hello_world_status_ok_assertions_v2.json --host example/github_host_new.properties
-
-- Run a test suite via CLI:
-  steply --folder tests --target example/github_host_new.properties
-
-- Even "--target" also works as "--target-env" (even "--targ" also works, CLI parser does a text matching)
-
-
+│   ├── test-report.csv
+│   ├── test-interactive-report.html
 ```
+
+Testcase Example:
+
+JSON
+```json
+  {
+    "name": "call_pcdp_api",
+    "url": "https://api.github.com/users/octocat",
+    "method": "GET",
+    "request": {
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "verify": {
+      "status": 200
+    }
+  }
+```
+
+or
+
+YAML
+```yaml
+- name: call_pcdp_api
+  url: https://api.github.com/users/octocat
+  method: GET
+  request:
+    headers:
+      Content-Type: application/json
+  verify:
+    status: 200
+```
+
+## Exit Codes (CI Friendly)
+
+Steply returns(for the example above):
+- 0 → HTTP 200 OK
+- Non-zero → Any other response
+
+This makes it easy to use in CI pipelines to determine build status.
+
+## Authentication
+The Authorization header can be automatically populated using a token from an authentication server.
+
+
+## CLI Help
+```shell
+➜  steply -h
+
+or
+
+➜  steply --help 
+```
+
+## Reports & Logs
+After execution, reports are generated in the "target/" folder:
+- HTML interactive report
+- CSV report
+- Execution logs (see "target/logs/" folder)
+
+## Notes
+- --target and --target-env work the same way.
+- Short forms like --targ are also accepted.
+
+## Documentation
+For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/)
+
+If you are using the CLI, you can ignore the Maven/Java sections in the documentation.
