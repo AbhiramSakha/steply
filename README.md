@@ -10,7 +10,7 @@ Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
 ```
 
-## Run a Test
+## Run a test
 ```shell
 steply --scenario tests/validate_github_user.json --target-env env/sit.properties
 ```
@@ -108,17 +108,20 @@ After execution, reports are generated in the "target/" folder:
 ## Alternative to
 - Postman
 - Insomnia
+- Karate
 
-but modern, opensource, lightweight and secure, and with easily pluggable cloud integrations. 
+but with modern, opensource, lightweight, secure and CLI appraoch, providing easily pluggable cloud integrations. 
 
-While those tools are powerful, they are often heavy, proprietary, or tightly coupled to specific ecosystems.
+While the above tools are powerful, they are often heavy, proprietary, or tightly coupled to specific language ecosystems(such as Java, Groovy etc).
 
 - This project is designed as a modern alternative to popular API development tools.
 
-- This project focuses on providing a modern, open-source, lightweight, and secure developer/SDET experience with easily pluggable hooks to external tools(such as Kafka, S3, Postgres etc).
+- And focuses on providing a open-source and collaborative developer/SDET experience with easily pluggable hooks to external tools(such as Kafka, S3, Postgres etc).
 
+## Credits
+Special thanks to all the authors and contributors of the zerocode-tdd JSON/YAML testing framework.
 
 ## Documentation
-For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/)
+For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/) 
 
-If you are using the CLI, you can ignore the Maven/Java sections in the documentation.
+As you are using the Steply CLI, you can ignore the Maven/Java sections in the documentation.
