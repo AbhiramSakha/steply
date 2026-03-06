@@ -1,9 +1,12 @@
 # Steply
-Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
+Steply is a CLI tool to validate APIs, databases, Kafka messages, and more. 
 
-- You can automate BDD-style tests or run manual validations without writing code, using simple JSON or YAML test steps.
+✨ Define the outcome, and Steply generates and executes the test automatically!
 
-- Store tests in Git(never loose your tests again) and easily manage manual tests, regression suites, and complex integration tests.
+- Automate BDD-style tests or run manual validations using simple JSON or YAML — no coding required.
+- Store tests in Git and easily manage manual tests, regression suites, and integration tests.
+
+See [examples](https://github.com/QABEES/steply-examples).
 
 ## Install
 ```shell
@@ -109,14 +112,16 @@ After execution, reports are generated in the "target/" folder:
 - Postman
 - Insomnia
 - Karate
+- PyRestTest
+- Cucumber
 
 but with modern, opensource, lightweight, secure and CLI appraoch, providing easily pluggable cloud integrations. 
 
-While the above tools are powerful, they are often heavy, proprietary, or tightly coupled to specific language ecosystems(such as Java, Groovy etc).
+While the above tools are powerful, they are often heavy, proprietary, or tightly coupled to specific language ecosystems(such as Java, Groovy, Python etc).
 
-- This project is designed as a modern alternative to popular API development tools.
-
-- And focuses on providing a open-source and collaborative developer/SDET experience with easily pluggable hooks to external tools(such as Kafka, S3, Postgres etc).
+This project :
+- focuses on providing a open-source and collaborative developer/SDET experience
+- provides easy/pluggable integrations (Kafka, S3, Postgres, and more)
 
 ## Credits
 Special thanks to all the authors and contributors of the zerocode-tdd JSON/YAML testing framework.
