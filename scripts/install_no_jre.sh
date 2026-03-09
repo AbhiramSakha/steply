@@ -8,8 +8,8 @@
 
 set -euo pipefail
 
-RELEASE_TAG="0.1.0-20260109"
-ZIP_NAME="steply-0.1.0-no-jre-20260309.zip"
+RELEASE_TAG="20260309.02"
+ZIP_NAME="steply-20260309.02.zip"
 ZIP_URL="https://github.com/QABEES/steply/releases/download/${RELEASE_TAG}/${ZIP_NAME}"
 
 INSTALL_ROOT="${XDG_DATA_HOME:-$HOME/.local/share}/steply"

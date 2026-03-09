@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ '*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build
+        run: mvn clean install -DskipTests
+
+      - name: Build no-JRE zip
+        run: |
+          chmod +x scripts/build-distribution-no-jre.sh
+          ./scripts/build-distribution-no-jre.sh /tmp/steply-dist
+
+      - name: Prepare zip for upload
+        id: zip
+        run: |
+          ZIP_ORIG=$(ls /tmp/steply-*-no-jre.zip)
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            ZIP_FINAL="/tmp/steply-${GITHUB_REF_NAME}-no-jre.zip"
+            mv "$ZIP_ORIG" "$ZIP_FINAL"
+          else
+            ZIP_FINAL="$ZIP_ORIG"
+          fi
+          echo "path=$ZIP_FINAL" >> $GITHUB_OUTPUT
+          echo "name=$(basename $ZIP_FINAL)" >> $GITHUB_OUTPUT
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.zip.outputs.name }}
+          path: ${{ steps.zip.outputs.path }}
+          retention-days: 7
+
+      - name: Create GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          files: ${{ steps.zip.outputs.path }}
