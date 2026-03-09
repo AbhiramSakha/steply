@@ -6,9 +6,20 @@ mvn clean  install -DskipTests
 or 
 mvn -T1C clean package -DskipTests
 
-./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/current/zulu-8.jdk/Contents/Home/jre /tmp/steply-dist
+Java17: (bundled)
+./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/17.0.17-tem /tmp/steply-dist
 (also creates "steply-0.1.0-SNAPSHOT-local.zip" in /tmp)
 (Bundles JRE and creates final zip under /tmp folder)
+------
+Java17: (no-jre)
+./scripts/build-distribution-no-jre.sh /tmp/steply-dist
+(update the VERSION.txt for a new version. )
+(Also after the build done, just update RELEASE_TAG and ZIP_NAME in "install_no_jre.sh" to point to the new release.)
+------
+Java8: (bundled)
+(pom has changed to support java17+, so check the earlier POM to get a correct java8 bundled build)
+./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/current/zulu-8.jdk/Contents/Home/jre /tmp/steply-dist
+------
 
 Optional:
 cp steply-cli/target/*-jar-with-dependencies.jar /private/tmp/steply-dist/lib/
