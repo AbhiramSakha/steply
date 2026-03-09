@@ -12,4 +12,4 @@ else
 fi
 
 CLASSPATH="$STEPLY_HOME/lib/*:$STEPLY_HOME/lib/*-jar-with-dependencies.jar"
-"$JAVA_BIN" -cp "$CLASSPATH" -Dlogback.configurationFile="$STEPLY_HOME/config/logback.xml" org.jsmart.steply.cli.SteplyCLI "$@"
+"$JAVA_BIN" -cp "$CLASSPATH" -Dsteply.home="$STEPLY_HOME" -Dlogback.configurationFile="$STEPLY_HOME/config/logback.xml" org.jsmart.steply.cli.SteplyCLI "$@"

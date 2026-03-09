@@ -9,6 +9,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.jsmart.steply.core.SteplyCommandRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class SteplyCLI {
 
     public static void main(String[] args) {
@@ -33,7 +38,7 @@ public class SteplyCLI {
             }
 
             if (cmd.hasOption("v")) {
-                System.out.println("Steply Test Execution Version v0.1.0-SNAPSHOT");
+                System.out.println("Steply Test Execution Version " + readVersion());
                 System.exit(0);
             }
 
@@ -96,6 +101,24 @@ public class SteplyCLI {
             e.printStackTrace(System.err);
             System.exit(2);
         }
+    }
+
+    private static String readVersion() {
+        String home = System.getProperty("steply.home", ".");
+        File versionFile = new File(home, "VERSION.txt");
+        if (versionFile.exists()) {
+            try (FileInputStream fis = new FileInputStream(versionFile)) {
+                Properties props = new Properties();
+                props.load(fis);
+                String version = props.getProperty("steply.version");
+                if (version != null) {
+                    return version;
+                }
+            } catch (IOException ignored) {
+                System.out.println("Could not read version info. You can safely ignore this.");
+            }
+        }
+        return "unknown";
     }
 
 }
