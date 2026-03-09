@@ -9,9 +9,30 @@ Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
 See [examples](https://github.com/QABEES/steply-examples).
 
 ## Install
+
+**Local (macOS / Linux) Laptop or PC — no Java required:**
 ```shell
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
 ```
+
+## CI CD Pipeline
+**CI (GitHub Actions/ GitLab Pipeline / Linux) — requires Java 17:**
+
+Add the following steps to your CI workflow on Ubuntu/Linux:
+```yaml
+- name: Set up Java 17
+  uses: actions/setup-java@v4
+  with:
+    distribution: temurin
+    java-version: '17'
+
+- name: Install Steply
+  run: |
+    curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
+    echo "$HOME/.local/bin" >> $GITHUB_PATH
+```
+
+> The CI distribution does not bundle a JRE. Java 17 must be available on the PATH (provided by `setup-java` above).
 
 ## Run a test
 ```shell

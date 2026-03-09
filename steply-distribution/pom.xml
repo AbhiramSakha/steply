@@ -45,33 +45,10 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target>
-                <!-- expose the assembly directory as an Ant property -->
-                <property name="assembly.dir" value="${project.build.directory}/assembly"/>
-                <echo message="Generating sha256 checksums (if any zips exist) in ${assembly.dir}"/>
-                <script language="javascript"><![CDATA[
-                  var File = java.io.File;
-                  var dirPath = project.getProperty("assembly.dir");
-                  var dir = new File(dirPath);
-                  if (dir.exists()) {
-                    var files = dir.listFiles();
-                    for (var i=0;i<files.length;i++) {
-                      var f = files[i];
-                      if (f.getName().endsWith(".zip")) {
-                        // Build a shell command to create a sha256 file next to the zip
-                        var cmdArray = ["sh","-c","shasum -a 256 " + f.getAbsolutePath() + " > " + f.getAbsolutePath() + ".sha256"];
-                        var proc = java.lang.Runtime.getRuntime().exec(cmdArray);
-                        var exitCode = proc.waitFor();
-                        if (exitCode != 0) {
-                          // Print a warning but continue
-                          java.lang.System.err.println("Warning: shasum exited with code " + exitCode + " for " + f.getAbsolutePath());
-                        }
-                      }
-                    }
-                  } else {
-                    // nothing to do
-                    java.lang.System.out.println("No assembly directory found at: " + dirPath);
-                  }
-                ]]></script>
+                <echo message="Generating sha256 checksums for zips in ${project.build.directory}"/>
+                <checksum algorithm="SHA-256" fileext=".sha256">
+                  <fileset dir="${project.build.directory}" includes="*.zip"/>
+                </checksum>
               </target>
             </configuration>
           </execution>

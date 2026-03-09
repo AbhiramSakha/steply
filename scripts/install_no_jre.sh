@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Installs Steply without a bundled JRE.
 # Requires Java 17+ to be available on the PATH.
-# Intended for CI environments (e.g. GitHub Actions with setup-java).
+# Intended for CI environments (e.g. GitHub Actions or GitLab Pipeline).
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash

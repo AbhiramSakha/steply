@@ -1,4 +1,4 @@
-package org.jsmart.steply.template;
+package org.jsmart.steply;
 
 import org.jsmart.zerocode.core.domain.Scenario;
 import org.jsmart.zerocode.core.domain.TargetEnv;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 
 @TargetEnv("config/github_host.properties")
 @RunWith(ZeroCodeUnitRunner.class)
-public class SingleTest {
+public class ScenarioTest {
 
     @Test
     @Scenario("helloworld/hello_world_status_ok_assertions.json")
