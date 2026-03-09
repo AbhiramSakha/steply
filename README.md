@@ -32,7 +32,7 @@ Add the following steps to your CI workflow on Ubuntu/Linux:
     echo "$HOME/.local/bin" >> $GITHUB_PATH
 ```
 
-> The CI distribution does not bundle a JRE. Java 17 must be available on the PATH (provided by `setup-java` above).
+> The CI distribution does not bundle a JRE. Java 17 must be available on the PATH(follow example above).
 
 ## Run a test
 ```shell
