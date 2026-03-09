@@ -22,7 +22,8 @@ steply --scenario example/hello_world_status_ok_assertions_new.json --target exa
 or:
 
 ➜  cd steply-dist
-./bin/steply.sh --scenario example/hello_world_status_ok_assertions_new.json --target example/github_host_new.properties
+./bin/steply.sh --scenario example/hello_world_status_ok_assertions.json --target example/github_host.properties
+(example folder comes with it)
 
 ```
 
