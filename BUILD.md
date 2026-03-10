@@ -86,6 +86,21 @@ MAC:
 ./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/current/zulu-8.jdk/Contents/Home/jre /tmp/steply-dist
 ```
 
+## AUTO PUBLISH RELEASE and AUTO UPDATE INSTALL SCRIPT:
+- On every push ci.yml workflow runs, but it doesn't trigger the auto-upload release or auto update install.sh file
+- So it ci.yml workflow run was Green, then create a tag and push it, then it triggers the auto-upload release 
+- and create a PR to auto update install.sh file.
+- Note: the zip file name becomes same as the TAG name. That's not a problem. But inside it may have old "VERSION.txt" which folds a different version.
+- "./bin/steply.sh -v" : prints from the "VERSION.txt" file.
+- So best practice will be to update the "VERSION.txt" file, then create a matching tag and push.
+- Example:
+  - Update "VERSION.txt" to "20260310.05"
+  - Create a tag "20260310.05" and push it.
+  - git tag 20260309.05
+    git push origin 20260309.05
+  - Then it triggers the auto-upload release and create a PR to update install.sh file with the new tag.
+- (even if you can't match, there is no problem functional wise)
+
 RUN:
 ```
 steply --scenario example/hello_world_status_ok_assertions_new.json --target example/github_host_new.properties --reports ./target/reports
