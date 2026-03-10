@@ -8,8 +8,8 @@
 
 set -euo pipefail
 
-RELEASE_TAG="20260309.02" #This is the release tag name while publishing to GitHub "releases" section
-ZIP_NAME="steply-20260309.02-no-jre.zip" #This is the exact zip file name in the GitHub "releases" section.
+RELEASE_TAG="20260310.05" #This is the release tag name while publishing to GitHub "releases" section
+ZIP_NAME="steply-20260310.05-no-jre.zip" #This is the exact zip file name in the GitHub "releases" section.
 
 ZIP_URL="https://github.com/QABEES/steply/releases/download/${RELEASE_TAG}/${ZIP_NAME}"
 
