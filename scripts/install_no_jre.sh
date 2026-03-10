@@ -37,15 +37,19 @@ echo "Installing to: ${INSTALL_DIR}"
 rm -rf "${INSTALL_DIR:?}/"*
 unzip -q "${TMP_DIR}/${ZIP_NAME}" -d "${INSTALL_DIR}"
 
-# The zip expands into a top-level directory named "steply-dist" (hardcoded).
-DIST_DIR="${INSTALL_DIR}/steply-dist"
-STEPLY_SH="${DIST_DIR}/bin/steply.sh"
+# Find steply.sh regardless of whether the zip has a top-level directory or not.
+STEPLY_SH="$(find "${INSTALL_DIR}" -type f -path '*/bin/steply.sh' -print -quit || true)"
 
-if [[ ! -f "${STEPLY_SH}" ]]; then
-  echo "ERROR: Expected ${STEPLY_SH} to exist after unzip, but it was not found."
+if [[ -z "${STEPLY_SH}" ]]; then
+  echo "ERROR: Could not find bin/steply.sh after unzip."
   echo "Please check the zip layout: ${ZIP_URL}"
+  echo
+  echo "DEBUG: Top-level entries in ${INSTALL_DIR}:"
+  ls -la "${INSTALL_DIR}" || true
   exit 1
 fi
+
+DIST_DIR="$(cd "$(dirname "${STEPLY_SH}")/.." && pwd)"
 
 chmod +x "${STEPLY_SH}"
 
