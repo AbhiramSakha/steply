@@ -1,2 +1,2 @@
-steply.version=20260310.01
+steply.version=20260310.02
 build.date=PLACEHOLDER
