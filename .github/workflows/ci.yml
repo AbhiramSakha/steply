@@ -44,14 +44,19 @@ jobs:
           else
             ZIP_FINAL="$ZIP_ORIG"
           fi
+          # Extract into a staging dir so upload-artifact doesn't double-wrap the zip
+          ARTIFACT_DIR="/tmp/steply-artifact"
+          mkdir -p "$ARTIFACT_DIR"
+          unzip -q "$ZIP_FINAL" -d "$ARTIFACT_DIR"
           echo "path=$ZIP_FINAL" >> $GITHUB_OUTPUT
-          echo "name=$(basename $ZIP_FINAL)" >> $GITHUB_OUTPUT
+          echo "name=$(basename $ZIP_FINAL .zip)" >> $GITHUB_OUTPUT
+          echo "artifact_dir=$ARTIFACT_DIR" >> $GITHUB_OUTPUT
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.zip.outputs.name }}
-          path: ${{ steps.zip.outputs.path }}
+          path: ${{ steps.zip.outputs.artifact_dir }}/
           retention-days: 7
 
       - name: Create GitHub Release

@@ -31,5 +31,9 @@ cp LICENSE README.md VERSION.txt "$OUTDIR/" || true
 ZIPNAME="steply-$(head -n1 VERSION.txt | sed 's/steply.version=//')-no-jre.zip"
 cd "$OUTDIR/.."
 zip -r "$ZIPNAME" "$(basename "$OUTDIR")"
-shasum -a 256 "$ZIPNAME" > "$ZIPNAME".sha256
+if command -v sha256sum &>/dev/null; then
+  sha256sum "$ZIPNAME" > "$ZIPNAME".sha256
+else
+  shasum -a 256 "$ZIPNAME" > "$ZIPNAME".sha256
+fi
 echo "Distribution created: $(pwd)/$ZIPNAME"
