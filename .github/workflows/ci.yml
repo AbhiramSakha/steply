@@ -71,10 +71,12 @@ jobs:
         run: |
           TAG="${GITHUB_REF_NAME}"
           ZIP="steply-${TAG}-no-jre.zip"
-          sed -i "s|^RELEASE_TAG=.*|RELEASE_TAG=\"${TAG}\" #This is the release tag name while publishing to GitHub \"releases\" section|" scripts/install_no_jre.sh
-          sed -i "s|^ZIP_NAME=.*|ZIP_NAME=\"${ZIP}\" #This is the exact zip file name in the GitHub \"releases\" section.|" scripts/install_no_jre.sh
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B main origin/main
+          sed -i "s|^RELEASE_TAG=.*|RELEASE_TAG=\"${TAG}\" #This is the release tag name while publishing to GitHub \"releases\" section|" scripts/install_no_jre.sh
+          sed -i "s|^ZIP_NAME=.*|ZIP_NAME=\"${ZIP}\" #This is the exact zip file name in the GitHub \"releases\" section.|" scripts/install_no_jre.sh
           git add scripts/install_no_jre.sh
           git diff --cached --quiet || git commit -m "chore: update install_no_jre.sh for release ${TAG}"
-          git push origin HEAD:main
+          git push origin main
