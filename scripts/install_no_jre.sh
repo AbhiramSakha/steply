@@ -37,12 +37,8 @@ echo "Installing to: ${INSTALL_DIR}"
 rm -rf "${INSTALL_DIR:?}/"*
 unzip -q "${TMP_DIR}/${ZIP_NAME}" -d "${INSTALL_DIR}"
 
-# The zip expands into a top-level directory. No need to hard code "steply-dist" dir
-DIST_DIR=$(find "${INSTALL_DIR}" -mindepth 1 -maxdepth 1 -type d | head -n1)
-# Fallback: if zip is flat (no top-level subdir), use INSTALL_DIR directly
-if [[ -z "${DIST_DIR}" ]]; then
-  DIST_DIR="${INSTALL_DIR}"
-fi
+# The zip expands into a top-level directory named "steply-dist" (hardcoded).
+DIST_DIR="${INSTALL_DIR}/steply-dist"
 STEPLY_SH="${DIST_DIR}/bin/steply.sh"
 
 if [[ ! -f "${STEPLY_SH}" ]]; then
