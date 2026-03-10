@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -73,10 +74,22 @@ jobs:
           ZIP="steply-${TAG}-no-jre.zip"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          BRANCH="chore/update-install-script-${TAG}"
           git fetch origin main
-          git checkout -B main origin/main
+          git checkout -B "${BRANCH}" origin/main
           sed -i "s|^RELEASE_TAG=.*|RELEASE_TAG=\"${TAG}\" #This is the release tag name while publishing to GitHub \"releases\" section|" scripts/install_no_jre.sh
           sed -i "s|^ZIP_NAME=.*|ZIP_NAME=\"${ZIP}\" #This is the exact zip file name in the GitHub \"releases\" section.|" scripts/install_no_jre.sh
           git add scripts/install_no_jre.sh
-          git diff --cached --quiet || git commit -m "chore: update install_no_jre.sh for release ${TAG}"
-          git push origin main
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update install_no_jre.sh for release ${TAG}"
+            git push origin "${BRANCH}"
+            gh pr create \
+              --title "chore: update install_no_jre.sh for release ${TAG}" \
+              --body "Automated PR to update \`RELEASE_TAG\` and \`ZIP_NAME\` in \`scripts/install_no_jre.sh\` following release \`${TAG}\`." \
+              --base main \
+              --head "${BRANCH}"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

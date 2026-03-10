@@ -29,6 +29,7 @@ For Automatic Release to "Releases" in GitHub:
 ---------
 git tag 20260309.03
 git push origin 20260309.03
+
 Then a new build triggers and "- name: Create GitHub Release" pushes/uploads this zip file.
 "- name: Update install_no_jre.sh with latest release tag " will update the install_no_jre.sh.
 ```
