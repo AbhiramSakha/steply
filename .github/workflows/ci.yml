@@ -40,7 +40,7 @@ jobs:
           ZIP_ORIG=$(ls /tmp/steply-*-no-jre.zip)
           if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
             ZIP_FINAL="/tmp/steply-${GITHUB_REF_NAME}-no-jre.zip"
-            mv "$ZIP_ORIG" "$ZIP_FINAL"
+            [[ "$ZIP_ORIG" != "$ZIP_FINAL" ]] && mv "$ZIP_ORIG" "$ZIP_FINAL"
           else
             ZIP_FINAL="$ZIP_ORIG"
           fi
