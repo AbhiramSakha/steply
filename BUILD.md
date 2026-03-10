@@ -2,11 +2,12 @@ ZIP:
 ```
 BUILD:
 ======
-mvn clean  install -DskipTests
+mvn clean  install -DskipTests 
 or 
 mvn -T1C clean package -DskipTests
 
-Java17: (bundled)
+Java17: (bundled) :
+Make sure to run with option "-DskipTests" prior to this line. Otherwise it creates a "steply-dist-test" folder.
 ./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/17.0.17-tem /tmp/steply-dist
 (also creates "steply-0.1.0-SNAPSHOT-local.zip" in /tmp)
 (Bundles JRE and creates final zip under /tmp folder)

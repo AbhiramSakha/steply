@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="0.1.0-20260109"
-ZIP_NAME="steply-${VERSION}.zip"
+#TODO-- update this variable VERSION to RELEASE_TAG to be consistent with install_no_jre.sh.
+VERSION="20260309.02" #This is the exact release tag name while publishing to GitHub "releases" section.
+ZIP_NAME="steply-20260309.02.zip" #This is the exact zip file name in the GitHub "releases" section.
+
 ZIP_URL="https://github.com/QABEES/steply/releases/download/${VERSION}/${ZIP_NAME}"
 
 INSTALL_ROOT="${XDG_DATA_HOME:-$HOME/.local/share}/steply"
