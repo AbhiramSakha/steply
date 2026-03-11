@@ -8,6 +8,17 @@ Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
 
 See [examples](https://github.com/QABEES/steply-examples).
 
+## Quick Start
+Laptop or PC:
+- Step-1: Install Steply (In your laptop or PC)
+- Step-2: Clone the [examples](https://github.com/QABEES/steply-examples) repo
+- Step-3: Run a test or test suite using the **run** command and verify the **PASS/FAIL** result.
+
+CI CD:
+- Step-1: Push your test scenarios and envs to your Git repo. Ignore the `/target` (results) folder in `.gitignore`.
+- Step-2: Configure the CI workflow (see the **CI/CD Workflow** section).
+- Step-3: Trigger the workflow and check the Job console for **PASS/FAIL** status
+
 ## Install
 
 **Local (macOS / Linux) Laptop or PC — no Java required:**
@@ -15,7 +26,7 @@ See [examples](https://github.com/QABEES/steply-examples).
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
 ```
 
-## CI CD Pipeline
+## CI CD Workflow
 ```bash
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
 ```
