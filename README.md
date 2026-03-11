@@ -81,7 +81,7 @@ my-integration-testing-project/
    └── validate_update_emplyee_api.json
 ```
 
-### TEST RESULTS:
+#### TEST RESULTS:
 ```
 ├── target/
 │   ├── logs
@@ -90,7 +90,7 @@ my-integration-testing-project/
 │   ├── test-interactive-report.html
 ```
 
-Testcase Example:
+## Testcase Example:
 
 JSON
 ```json
@@ -123,7 +123,7 @@ YAML
     status: 200
 ```
 
-## Exit Codes (CI Friendly)
+## Exit Codes (for CI Workflow)
 
 Steply returns(for the example above):
 - 0 → HTTP 200 OK
