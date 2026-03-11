@@ -16,9 +16,18 @@ curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.
 ```
 
 ## CI CD Pipeline
+```bash
+curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
+```
+
+<details>
+<summary>Example CI Step ◀ (Click to expand)</summary>
+  
 **CI (GitHub Actions/ GitLab Pipeline / Linux) — requires Java 17:**
 
-Add the following steps to your CI workflow on Ubuntu/Linux:
+Add the following steps to your CI workflow on Ubuntu/Linux.
+
+_(This is GitHub Actions step. Simillar step can go to GitLab CI CD Pipeline or Jenkins job)_
 ```yaml
 - name: Set up Java 17
   uses: actions/setup-java@v4
@@ -31,8 +40,11 @@ Add the following steps to your CI workflow on Ubuntu/Linux:
     curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
     echo "$HOME/.local/bin" >> $GITHUB_PATH
 ```
+> As The CI distribution does not bundle a JRE. Java 17 must be available on the PATH(follow example above).
 
-> The CI distribution does not bundle a JRE. Java 17 must be available on the PATH(follow example above).
+</details>
+
+
 
 ## Run a test
 ```shell
@@ -44,20 +56,22 @@ steply --scenario tests/validate_github_user.json --target-env env/sit.propertie
 steply --folder tests --target env/sit.properties
 ```
 
-Project Folder Structure:
+# Project Folder Structure:
 ```
 my-integration-testing-project/
 ├── env
 │   ├── sit.properties
+│   ├── uat.properties
 │   ├── pre_prod.properties
 │   └── github_host.properties
 └── tests
    ├── validate_github_user_api.json
    ├── validate_create_user_api.json
    └── validate_update_emplyee_api.json
+```
 
-OUTPUT:
--------
+### TEST RESULTS:
+```
 ├── target/
 │   ├── logs
 │   │   └── executions.log
