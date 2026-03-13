@@ -29,6 +29,8 @@ public class SteplyCLITest {
         outContent = new ByteArrayOutputStream();
         errContent = new ByteArrayOutputStream();
 
+        // due to this, no more it prints to console during tests,
+        // but we can capture and assert on the output content
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
@@ -88,5 +90,78 @@ public class SteplyCLITest {
 
         String err = errContent.toString();
         assertTrue(err.contains("Only one of --target-env (-t) OR --host (-hc) should be provided"));
+    }
+
+    @Test
+    public void noArgs_shouldPrintError_andExit1() {
+
+        int status = SteplyCLI.run(new String[]{});
+
+        assertEquals(1, status);
+
+        String err = errContent.toString();
+        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) must be provided"));
+    }
+
+    @Test
+    public void bothScenarioAndFolder_shouldPrintError_andExit1() {
+
+        int status = SteplyCLI.run(new String[]{
+                "-s", "sc.json",
+                "-f", "suite-folder"
+        });
+
+        assertEquals(1, status);
+
+        String err = errContent.toString();
+        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) must be provided"));
+    }
+
+    @Test
+    public void invalidFlag_shouldPrintError_andExit1() {
+
+        int status = SteplyCLI.run(new String[]{"--unknown-flag"});
+
+        assertEquals(1, status);
+
+        String err = errContent.toString();
+        assertTrue(err.contains("Error parsing arguments:"));
+    }
+
+    @Test
+    public void hostConfigAlias_shouldNormalizeToTargetEnv_andProceedExecution() {
+
+        int status = SteplyCLI.run(new String[]{
+                "-s", "some-scenario.json",
+                "-hc", "host.properties"
+        });
+
+        // exit code 2 confirms -hc was accepted, normalized to targetEnv, and execution was attempted
+        assertEquals(2, status);
+
+        String err = errContent.toString();
+        assertTrue(err.contains("Execution failed:"));
+    }
+
+    @Test
+    public void longOptions_help_shouldWorkSameAsShortOption() {
+
+        int status = SteplyCLI.run(new String[]{"--help"});
+
+        assertEquals(0, status);
+
+        String out = outContent.toString();
+        assertTrue(out.toLowerCase().contains("usage"));
+    }
+
+    @Test
+    public void longOptions_version_shouldWorkSameAsShortOption() {
+
+        int status = SteplyCLI.run(new String[]{"--version"});
+
+        assertEquals(0, status);
+
+        String out = outContent.toString();
+        assertTrue(out.contains("Steply Test Execution Version"));
     }
 }
