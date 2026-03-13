@@ -2,8 +2,8 @@
 set -euo pipefail
 
 #TODO-- update this variable VERSION to RELEASE_TAG to be consistent with install_no_jre.sh.
-VERSION="20260313.02" #This is the exact release tag name while publishing to GitHub "releases" section.
-ZIP_NAME="steply-20260313.02.zip" #This is the exact zip file name in the GitHub "releases" section.
+VERSION="20260314.01" #This is the exact release tag name while publishing to GitHub "releases" section.
+ZIP_NAME="20260314.01" #This is the exact zip file name in the GitHub "releases" section.
 
 ZIP_URL="https://github.com/QABEES/steply/releases/download/${VERSION}/${ZIP_NAME}"
 
