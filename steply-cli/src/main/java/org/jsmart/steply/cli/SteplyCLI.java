@@ -12,6 +12,7 @@ import org.jsmart.steply.core.SteplyCommandRunner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 public class SteplyCLI {
@@ -63,10 +64,13 @@ public class SteplyCLI {
                 return 1;
             }
 
+            // Making --target-env  or --host as optional. Only show warning, but run it.
             if (targetEnv == null && hostConfig == null) {
-                System.err.println("Missing required option: either --target-env (-t) OR --host (-hc) must be provided.");
-                new HelpFormatter().printHelp("steply", options);
-                return 1;
+                System.err.println("Steply: No --target-env (-t) OR --host (-hc) was provided. If it is intentional, you can safely ignore this warning, \notherwise, please provide target environment details. Running in default mode.");
+                URL defaultResource = SteplyCLI.class.getClassLoader().getResource("config/default.properties");
+                if (defaultResource != null) {
+                    targetEnv = defaultResource.getPath();
+                }
             }
 
             if (targetEnv != null && hostConfig != null) {

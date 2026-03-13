@@ -64,14 +64,15 @@ public class SteplyCLITest {
     }
 
     @Test
-    public void missingTargetAndHost_shouldPrintErrorAndExit1() {
+    public void missingTargetAndHost_shouldPrintWarning_butProceedExecution() {
 
         int status = SteplyCLI.run(new String[]{"-s", "some-scenario.json"});
 
-        assertEquals(1, status);
+        // exit code 2 confirms execution proceeded past the env-check (not failed-fast with 1)
+        assertEquals(2, status);
 
         String err = errContent.toString();
-        assertTrue(err.contains("Missing required option"));
+        assertTrue(err.contains("Running in default mode."));
     }
 
     @Test
