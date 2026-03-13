@@ -44,9 +44,11 @@ public class SteplyCLI {
                 return 0;
             }
 
+            //// Uncomment this and run the "main()" above using the IDE play-button. It executes the real test(happy case) ////
             // String scenario = "/Users/nchandra/Downloads/STEPLY_WORKSPACE/steply/steply-core/src/main/resources/helloworld/hello_world_status_ok_assertions_new.json";
-            // String target = "/Users/nchandra/Downloads/STEPLY_WORKSPACE/steply/steply-core/src/main/resources/config/github_host_new.properties";
-            // String folder = null;
+            // String targetEnv = "/Users/nchandra/Downloads/STEPLY_WORKSPACE/steply/steply-core/src/main/resources/config/github_host_new.properties";
+            // String suiteFolder = null;
+
             String scenario = cmd.getOptionValue("s");
             String suiteFolder = cmd.getOptionValue("f");
             String targetEnv = cmd.getOptionValue("t");
