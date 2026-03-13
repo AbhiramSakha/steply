@@ -12,6 +12,22 @@ INSTALL_DIR="${INSTALL_ROOT}/${VERSION}"
 BIN_DIR="$HOME/.local/bin"
 LAUNCHER="${BIN_DIR}/steply"
 
+if ! command -v unzip &>/dev/null; then
+  echo "'unzip' not found — attempting to install..."
+  if command -v apt-get &>/dev/null; then
+    sudo apt-get install -y unzip
+  elif command -v dnf &>/dev/null; then
+    sudo dnf install -y unzip
+  elif command -v yum &>/dev/null; then
+    sudo yum install -y unzip
+  elif command -v brew &>/dev/null; then
+    brew install unzip
+  else
+    echo "ERROR: Could not install 'unzip' automatically. Please install it manually and re-run."
+    exit 1
+  fi
+fi
+
 mkdir -p "${INSTALL_DIR}" "${BIN_DIR}"
 
 TMP_DIR="$(mktemp -d)"
@@ -51,11 +67,24 @@ echo "Binary: ${LAUNCHER}"
 echo
 
 if ! echo ":$PATH:" | grep -q ":${BIN_DIR}:"; then
-  echo "NOTE: ${BIN_DIR} is not on your PATH."
-  echo "Add this line to your shell profile (~/.bashrc, ~/.zshrc, etc):"
-  echo "  export PATH=\"${BIN_DIR}:\$PATH\""
+  EXPORT_LINE="export PATH=\"${BIN_DIR}:\$PATH\""
+  for PROFILE in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    if [[ -f "$PROFILE" ]] && ! grep -qF "${BIN_DIR}" "$PROFILE"; then
+      echo "" >> "$PROFILE"
+      echo "# Added by Steply installer" >> "$PROFILE"
+      echo "${EXPORT_LINE}" >> "$PROFILE"
+      echo "Added ${BIN_DIR} to PATH in ${PROFILE}."
+    fi
+  done
+  echo
+  echo "NOTE: To use 'steply' in this session, run:"
+  echo "  ${EXPORT_LINE}"
   echo
 fi
 
-echo "Try:"
-echo "  steply -v"
+if "${LAUNCHER}" -v; then
+  echo "Steply installed successfully."
+else
+  echo "ERROR: Steply installation verification failed. Please check the install."
+  exit 1
+fi

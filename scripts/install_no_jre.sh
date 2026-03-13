@@ -18,10 +18,43 @@ INSTALL_DIR="${INSTALL_ROOT}/${RELEASE_TAG}"
 BIN_DIR="$HOME/.local/bin"
 LAUNCHER="${BIN_DIR}/steply"
 
-# Verify Java is available
+# Verify Java is available, install Java 17 if not found
 if ! command -v java &>/dev/null; then
-  echo "ERROR: Java not found on PATH. Please install Java 17+ before running this script."
-  exit 1
+  echo "Java not found — attempting to install Java 17..."
+  if command -v apt-get &>/dev/null; then
+    sudo apt-get install -y openjdk-17-jre-headless
+  elif command -v dnf &>/dev/null; then
+    sudo dnf install -y java-17-openjdk-headless
+  elif command -v yum &>/dev/null; then
+    if grep -qi "Amazon Linux 2" /etc/os-release 2>/dev/null; then
+      sudo amazon-linux-extras enable corretto17 2>/dev/null || true
+      sudo yum install -y java-17-amazon-corretto-headless
+    else
+      sudo yum install -y java-17-openjdk-headless
+    fi
+  elif command -v brew &>/dev/null; then
+    brew install openjdk@17
+  else
+    echo "ERROR: Could not install Java 17 automatically. Please install Java 17+ manually and re-run."
+    exit 1
+  fi
+fi
+
+# Verify unzip is available
+if ! command -v unzip &>/dev/null; then
+  echo "'unzip' not found — attempting to install..."
+  if command -v apt-get &>/dev/null; then
+    sudo apt-get install -y unzip
+  elif command -v dnf &>/dev/null; then
+    sudo dnf install -y unzip
+  elif command -v yum &>/dev/null; then
+    sudo yum install -y unzip
+  elif command -v brew &>/dev/null; then
+    brew install unzip
+  else
+    echo "ERROR: Could not install 'unzip' automatically. Please install it manually and re-run."
+    exit 1
+  fi
 fi
 
 mkdir -p "${INSTALL_DIR}" "${BIN_DIR}"
@@ -67,11 +100,24 @@ echo "Binary: ${LAUNCHER}"
 echo
 
 if ! echo ":$PATH:" | grep -q ":${BIN_DIR}:"; then
-  echo "NOTE: ${BIN_DIR} is not on your PATH."
-  echo "Add this to your shell profile or CI step:"
-  echo "  export PATH=\"${BIN_DIR}:\$PATH\""
+  EXPORT_LINE="export PATH=\"${BIN_DIR}:\$PATH\""
+  for PROFILE in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    if [[ -f "$PROFILE" ]] && ! grep -qF "${BIN_DIR}" "$PROFILE"; then
+      echo "" >> "$PROFILE"
+      echo "# Added by Steply installer" >> "$PROFILE"
+      echo "${EXPORT_LINE}" >> "$PROFILE"
+      echo "Added ${BIN_DIR} to PATH in ${PROFILE}."
+    fi
+  done
+  echo
+  echo "NOTE: To use 'steply' in this session, run:"
+  echo "  ${EXPORT_LINE}"
   echo
 fi
 
-echo "Try:"
-echo "  steply -v"
+if "${LAUNCHER}" -v; then
+  echo "Steply installed successfully."
+else
+  echo "ERROR: Steply installation verification failed. Please check the install."
+  exit 1
+fi

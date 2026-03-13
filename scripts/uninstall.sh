@@ -21,6 +21,13 @@ else
   echo "Install directory not found (already removed?): ${INSTALL_ROOT}"
 fi
 
+for PROFILE in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  if [[ -f "$PROFILE" ]] && grep -qF "${BIN_DIR}" "$PROFILE"; then
+    sed -i "\|# Added by Steply installer|d" "$PROFILE"
+    sed -i "\|${BIN_DIR}|d" "$PROFILE"
+    echo "Removed ${BIN_DIR} from PATH in ${PROFILE}."
+  fi
+done
+
 echo
 echo "Steply has been uninstalled."
-echo "If you added \$HOME/.local/bin to your PATH in ~/.zshrc or ~/.bashrc, you can remove that line manually."
