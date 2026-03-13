@@ -11,6 +11,9 @@ Make sure to run with option "-DskipTests" prior to this line. Otherwise it crea
 ./scripts/build-distribution-local-jre.sh /Users/nchandra/.sdkman/candidates/java/17.0.17-tem /tmp/steply-dist
 (also creates "steply-0.1.0-SNAPSHOT-local.zip" in /tmp)
 (Bundles JRE and creates final zip under /tmp folder)
+- Upload it manually with renaming/matching the version in "VERSION.txt" file. 
+(or you can update the "VERSION.txt" file before building, then it will be same as the zip name)
+
 ------
 Java17: (no-jre)
 ./scripts/build-distribution-no-jre.sh /tmp/steply-dist

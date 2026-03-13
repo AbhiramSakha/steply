@@ -12,7 +12,10 @@ import org.jsmart.steply.core.SteplyCommandRunner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
 public class SteplyCLI {
@@ -67,9 +70,13 @@ public class SteplyCLI {
             // Making --target-env  or --host as optional. Only show warning, but run it.
             if (targetEnv == null && hostConfig == null) {
                 System.err.println("Steply: No --target-env (-t) OR --host (-hc) was provided. If it is intentional, you can safely ignore this warning, \notherwise, please provide target environment details. Running in default mode.");
-                URL defaultResource = SteplyCLI.class.getClassLoader().getResource("config/default.properties");
-                if (defaultResource != null) {
-                    targetEnv = defaultResource.getPath();
+                try (InputStream in = SteplyCLI.class.getClassLoader().getResourceAsStream("config/default.properties")) {
+                    if (in != null) {
+                        File tmp = File.createTempFile("steply-default", ".properties");
+                        tmp.deleteOnExit();
+                        Files.copy(in, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        targetEnv = tmp.getAbsolutePath();
+                    }
                 }
             }
 
