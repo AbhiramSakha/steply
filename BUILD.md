@@ -13,7 +13,7 @@ Make sure to run with option "-DskipTests" prior to this line. Otherwise it crea
 (Bundles JRE and creates final zip under /tmp folder)
 - Upload it manually with renaming/matching the version in "VERSION.txt" file. 
 (or you can update the "VERSION.txt" file before building, then it will be same as the zip name)
-
+- But 1st push a release tag(see below) and let GitHub Bot create a no-jre release, then you update the install.sh to latest version, then upload.
 ------
 Java17: (no-jre)
 ./scripts/build-distribution-no-jre.sh /tmp/steply-dist
@@ -30,8 +30,8 @@ cp steply-cli/target/*-jar-with-dependencies.jar /private/tmp/steply-dist/lib/
 
 For Automatic Release to "Releases" in GitHub:
 ---------
-git tag 20260309.03
-git push origin 20260309.03
+git tag 20260313.02
+git push origin 20260313.02
 
 Then a new build triggers and "- name: Create GitHub Release" pushes/uploads this zip file.
 "- name: Update install_no_jre.sh with latest release tag " will update the install_no_jre.sh.

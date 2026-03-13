@@ -172,6 +172,15 @@ This project :
 ## Credits
 Special thanks to all the authors and contributors of the zerocode-tdd JSON/YAML testing framework.
 
+## Uninstall
+**macOS / Linux:**
+```shell
+curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/uninstall.sh | bash
+```
+
+This removes the `steply` launcher and all installed files.
+If you added `$HOME/.local/bin` to your PATH in `~/.zshrc` or `~/.bashrc`, remove that line manually.
+
 ## Documentation
 For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/) 
 
