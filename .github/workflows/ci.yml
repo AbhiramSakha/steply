@@ -67,27 +67,26 @@ jobs:
           name: ${{ github.ref_name }}
           files: ${{ steps.zip.outputs.path }}
 
-      - name: Update install_no_jre.sh with latest release tag
+      - name: Update two install scripts with latest release tag
         if: github.ref_type == 'tag'
         run: |
           TAG="${GITHUB_REF_NAME}"
-          ZIP="steply-${TAG}-no-jre.zip"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           BRANCH="chore/update-install-script-${TAG}"
           git fetch origin main
           git checkout -B "${BRANCH}" origin/main
-          sed -i "s|^RELEASE_TAG=.*|RELEASE_TAG=\"${TAG}\" #This is the release tag name while publishing to GitHub \"releases\" section|" scripts/install_no_jre.sh
-          sed -i "s|^ZIP_NAME=.*|ZIP_NAME=\"${ZIP}\" #This is the exact zip file name in the GitHub \"releases\" section.|" scripts/install_no_jre.sh
-          git add scripts/install_no_jre.sh
+          sed -i "s|^VERSION=.*|VERSION=\"${TAG}\" #This is the only variable to update when releasing a new version.|" scripts/install_no_jre.sh
+          sed -i "s|^VERSION=.*|VERSION=\"${TAG}\" #This is the only variable to update when releasing a new version.|" scripts/install.sh
+          git add scripts/install_no_jre.sh scripts/install.sh
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: update install_no_jre.sh for release ${TAG}"
+            git commit -m "chore: update install scripts for release ${TAG}"
             git push origin "${BRANCH}"
             gh pr create \
-              --title "chore: update install_no_jre.sh for release ${TAG}" \
-              --body "Automated PR to update \`RELEASE_TAG\` and \`ZIP_NAME\` in \`scripts/install_no_jre.sh\` following release \`${TAG}\`." \
+              --title "chore: update two install scripts for release ${TAG}" \
+              --body "Automated PR to update \`VERSION\` in \`scripts/install.sh\` and \`scripts/install_no_jre.sh\` following release \`${TAG}\`." \
               --base main \
               --head "${BRANCH}"
           fi

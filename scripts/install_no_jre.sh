@@ -8,13 +8,13 @@
 
 set -euo pipefail
 
-RELEASE_TAG="20260313.02" #This is the release tag name while publishing to GitHub "releases" section
-ZIP_NAME="steply-20260313.02-no-jre.zip" #This is the exact zip file name in the GitHub "releases" section.
+VERSION="20260314.01" #This is the only variable to update when releasing a new version.
+ZIP_NAME="steply-${VERSION}-no-jre.zip"
 
-ZIP_URL="https://github.com/QABEES/steply/releases/download/${RELEASE_TAG}/${ZIP_NAME}"
+ZIP_URL="https://github.com/QABEES/steply/releases/download/${VERSION}/${ZIP_NAME}"
 
 INSTALL_ROOT="${XDG_DATA_HOME:-$HOME/.local/share}/steply"
-INSTALL_DIR="${INSTALL_ROOT}/${RELEASE_TAG}"
+INSTALL_DIR="${INSTALL_ROOT}/${VERSION}"
 BIN_DIR="$HOME/.local/bin"
 LAUNCHER="${BIN_DIR}/steply"
 
@@ -94,7 +94,7 @@ EOF
 chmod +x "${LAUNCHER}"
 
 echo
-echo "Installed Steply (no-JRE) ${RELEASE_TAG}."
+echo "Installed Steply (no-JRE) ${VERSION}."
 echo "Install dir: ${DIST_DIR}"
 echo "Binary: ${LAUNCHER}"
 echo
