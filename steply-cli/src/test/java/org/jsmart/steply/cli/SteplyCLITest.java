@@ -100,7 +100,7 @@ public class SteplyCLITest {
         assertEquals(1, status);
 
         String err = errContent.toString();
-        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) must be provided"));
+        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) or --suite must be provided (mutually exclusive)."));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class SteplyCLITest {
         assertEquals(1, status);
 
         String err = errContent.toString();
-        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) must be provided"));
+        assertTrue(err.contains("Either --scenario (-s) OR --folder (-f) or --suite must be provided (mutually exclusive)."));
     }
 
     @Test
@@ -163,5 +163,20 @@ public class SteplyCLITest {
 
         String out = outContent.toString();
         assertTrue(out.contains("Steply Test Execution Version"));
+    }
+
+    @Test
+    public void suiteOption_shouldBehaveSameAsFolder_andProceedExecution() {
+
+        int status = SteplyCLI.run(new String[]{
+                "--suite", "some-suite-folder",
+                "-t", "env.properties"
+        });
+
+        // exit code 2 confirms --suite was accepted and execution was attempted (not failed-fast with 1)
+        assertEquals(2, status);
+
+        String err = errContent.toString();
+        assertTrue(err.contains("Execution failed:"));
     }
 }

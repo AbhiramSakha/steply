@@ -54,7 +54,7 @@ public class SteplyCLI {
             // String suiteFolder = null;
 
             String scenario = cmd.getOptionValue("s");
-            String suiteFolder = cmd.getOptionValue("f");
+            String suiteFolder = cmd.hasOption("suite") ? cmd.getOptionValue("suite") : cmd.getOptionValue("f");
             String targetEnv = cmd.getOptionValue("t");
             String hostConfig = cmd.getOptionValue("hc");
 
@@ -62,7 +62,7 @@ public class SteplyCLI {
             String logLevel = cmd.getOptionValue("l", "INFO");
 
             if ((scenario == null && suiteFolder == null) || (scenario != null && suiteFolder != null)) {
-                System.err.println("Either --scenario (-s) OR --folder (-f) must be provided (mutually exclusive).");
+                System.err.println("Either --scenario (-s) OR --folder (-f) or --suite must be provided (mutually exclusive).");
                 new HelpFormatter().printHelp("steply", options);
                 return 1;
             }
@@ -128,6 +128,9 @@ public class SteplyCLI {
 
         options.addOption(Option.builder("f").longOpt("folder").hasArg()
                 .desc("Folder(Test Suite) containing multiple scenarios").build());
+
+        options.addOption(Option.builder().longOpt("suite").hasArg()
+                .desc("Test Suite containing multiple scenarios : Alias for --folder").build());
 
         options.addOption(Option.builder("t").longOpt("target-env").hasArg()
                 .desc("Target environment properties file").build());
