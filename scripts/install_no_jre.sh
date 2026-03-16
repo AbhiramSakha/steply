@@ -40,12 +40,12 @@ if [[ "${JAVA_MAJOR:-0}" -lt 17 ]]; then
   elif [[ "$(uname)" == "Darwin" ]]; then
     echo "ERROR: Java 17 not found and Homebrew is not installed."
     echo "Please install Java 17(or higher) manually and re-run this script."
-    echo "1)"
+    echo "Option-1)"
     echo "Recommended: Install Homebrew first (https://brew.sh), then re-run this script."
     echo ""
-    echo "2)"
+    echo "Option-2)"
     echo "Or: Download Java Temurin 17 (free, open source) from:"
-    echo "  https://adoptium.net/temurin/releases/?version=17&os=mac&package=jre"
+    echo "   https://adoptium.net/temurin/releases/?version=17&os=mac&package=jre"
     exit 1
   else
     echo "ERROR: Could not install Java 17 automatically. Please install Java 17+ manually and re-run."
