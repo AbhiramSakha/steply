@@ -21,7 +21,7 @@ CI CD:
 
 ## Install
 
-### Linux / Ubuntu / VPS / Mac Arm / Mac Intel / CI CD Workflow (Java 17+ required)
+### Mac Arm / Mac Intel / Linux / Ubuntu / VPS / CI CD Workflow
 ```shell
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
 ```
