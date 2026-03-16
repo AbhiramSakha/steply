@@ -1,5 +1,5 @@
 # Steply
-Steply is a CLI tool to validate APIs, databases, Kafka messages, and more. 
+Steply is a CLI tool to validate APIs, databases, Kafka messages, and more.
 
 ✨ Define the outcome, and Steply generates and executes the test automatically!
 
@@ -16,29 +16,26 @@ Laptop or PC:
 
 CI CD:
 - Step-1: Push your test scenarios and envs to your Git repo. Ignore the `/target` (results) folder in `.gitignore`.
-- Step-2: Configure the CI workflow (see the **CI/CD Workflow** section).
+- Step-2: Configure the CI workflow (see the **Install** section below).
 - Step-3: Trigger the workflow and check the Job console for **PASS/FAIL** status
 
 ## Install
 
-**Local (macOS / Linux) Laptop or PC — no Java required:**
+### Linux / Ubuntu / VPS / Mac Arm / Mac Intel / CI CD Workflow (Java 17+ required)
 ```shell
-curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
-```
-
-## CI CD Workflow
-```bash
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
 ```
 
 <details>
-<summary>Example CI Step ◀ (Click to expand)</summary>
-  
-**CI (GitHub Actions/ GitLab Pipeline / Linux) — requires Java 17:**
+<summary>Example Step ◀ (Click to expand)</summary>
+
+Expects Java 17+ to be available on the PATH. If not found, the script will attempt to install it automatically.
+
+**CI (GitHub Actions / GitLab Pipeline / Linux) — requires Java 17:**
 
 Add the following steps to your CI workflow on Ubuntu/Linux.
 
-_(This is GitHub Actions step. Simillar step can go to GitLab CI CD Pipeline or Jenkins job)_
+_(This is a GitHub Actions step. A similar step can go into a GitLab CI/CD Pipeline or Jenkins job.)_
 ```yaml
 - name: Set up Java 17
   uses: actions/setup-java@v4
@@ -51,20 +48,23 @@ _(This is GitHub Actions step. Simillar step can go to GitLab CI CD Pipeline or 
     curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install_no_jre.sh | bash
     echo "$HOME/.local/bin" >> $GITHUB_PATH
 ```
-> As The CI distribution does not bundle a JRE. Java 17 must be available on the PATH(follow example above).
 
 </details>
 
-
+### For Mac M3/ARM Only (Java bundled)
+No Java required — JRE is included in the distribution.
+```shell
+curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/install.sh | bash
+```
 
 ## Run a test
 ```shell
 steply --scenario tests/validate_github_user.json --target-env env/sit.properties
 ```
 
-## Run a full test suite:
-```
-steply --folder tests --target env/sit.properties
+## Run a full test suite
+```shell
+steply --suite tests --target-env env/sit.properties
 ```
 
 # Project Folder Structure:
@@ -141,7 +141,7 @@ The Authorization header can be automatically populated using a token from an au
 
 or
 
-➜  steply --help 
+➜  steply --help
 ```
 
 ## Reports & Logs
@@ -151,8 +151,9 @@ After execution, reports are generated in the "target/" folder:
 - Execution logs (see "target/logs/" folder)
 
 ## Notes
-- --target and --target-env work the same way.
-- Short forms like --targ are also accepted.
+- `--folder` and `--suite` work the same way.
+- `--target` and `--target-env` work the same way.
+- Short forms like `--targ` are also accepted.
 
 ## Alternative to
 - Postman
@@ -161,7 +162,7 @@ After execution, reports are generated in the "target/" folder:
 - PyRestTest
 - Cucumber
 
-but with modern, opensource, lightweight, secure and CLI appraoch, providing easily pluggable cloud integrations. 
+but with modern, opensource, lightweight, secure and CLI appraoch, providing easily pluggable cloud integrations.
 
 While the above tools are powerful, they are often heavy, proprietary, or tightly coupled to specific language ecosystems(such as Java, Groovy, Python etc).
 
@@ -178,10 +179,9 @@ Special thanks to all the authors and contributors of the zerocode-tdd JSON/YAML
 curl -fsSL https://raw.githubusercontent.com/QABEES/steply/main/scripts/uninstall.sh | bash
 ```
 
-This removes the `steply` launcher and all installed files.
-If you added `$HOME/.local/bin` to your PATH in `~/.zshrc` or `~/.bashrc`, remove that line manually.
+This removes the `steply` launcher, all installed files, and the PATH entry from your shell profile.
 
 ## Documentation
-For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/) 
+For detailed documentation and examples, visit [here](https://zerocode-tdd.tddfy.com/)
 
 As you are using the Steply CLI, you can ignore the Maven/Java sections in the documentation.
