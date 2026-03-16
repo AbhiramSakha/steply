@@ -18,9 +18,12 @@ INSTALL_DIR="${INSTALL_ROOT}/${VERSION}"
 BIN_DIR="$HOME/.local/bin"
 LAUNCHER="${BIN_DIR}/steply"
 
-# Verify Java is available, install Java 17 if not found
-if ! command -v java &>/dev/null; then
-  echo "Java not found — attempting to install Java 17..."
+# Verify Java 17+ is available and functional.
+# On macOS without Java, /usr/bin/java is a stub that passes `command -v java`
+# but fails when actually invoked, so we must test execution, not just presence.
+JAVA_MAJOR="$(java -version 2>&1 | grep -oE '"[0-9]+' | head -1 | tr -d '"' || true)"
+if [[ "${JAVA_MAJOR:-0}" -lt 17 ]]; then
+  echo "Java 17+ not found — attempting to install Java 17..."
   if command -v apt-get &>/dev/null; then
     sudo apt-get install -y openjdk-17-jre-headless
   elif command -v dnf &>/dev/null; then
@@ -36,12 +39,13 @@ if ! command -v java &>/dev/null; then
     brew install openjdk@17
   elif [[ "$(uname)" == "Darwin" ]]; then
     echo "ERROR: Java 17 not found and Homebrew is not installed."
-    echo "Please install Java 17 manually and re-run this script."
+    echo "Please install Java 17(or higher) manually and re-run this script."
+    echo "1)"
+    echo "Recommended: Install Homebrew first (https://brew.sh), then re-run this script."
     echo ""
-    echo "Recommended: Download Temurin 17 (free, open source) from:"
+    echo "2)"
+    echo "Or: Download Java Temurin 17 (free, open source) from:"
     echo "  https://adoptium.net/temurin/releases/?version=17&os=mac&package=jre"
-    echo ""
-    echo "Or install Homebrew first (https://brew.sh), then re-run this script."
     exit 1
   else
     echo "ERROR: Could not install Java 17 automatically. Please install Java 17+ manually and re-run."
