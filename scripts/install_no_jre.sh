@@ -34,6 +34,15 @@ if ! command -v java &>/dev/null; then
     fi
   elif command -v brew &>/dev/null; then
     brew install openjdk@17
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    echo "ERROR: Java 17 not found and Homebrew is not installed."
+    echo "Please install Java 17 manually and re-run this script."
+    echo ""
+    echo "Recommended: Download Temurin 17 (free, open source) from:"
+    echo "  https://adoptium.net/temurin/releases/?version=17&os=mac&package=jre"
+    echo ""
+    echo "Or install Homebrew first (https://brew.sh), then re-run this script."
+    exit 1
   else
     echo "ERROR: Could not install Java 17 automatically. Please install Java 17+ manually and re-run."
     exit 1
