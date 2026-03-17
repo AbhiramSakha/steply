@@ -88,7 +88,6 @@ else
   exit 1
 fi
 echo ""
-echo "✅ Installation successful!"
-echo "Run the following command to test Steply:"
+echo "👉 Run the following command to test Steply:"
 echo "steply --scenario tests/get_user_api.json --target-env env/sit1.properties"
 echo ""
